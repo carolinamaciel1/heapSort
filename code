@@ -1,0 +1,82 @@
+from random import randint
+import timeit
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+
+def geraLista(tam):
+    lista = []
+    for i in range(tam):
+        n = randint(1,1*tam)
+        if n not in lista: lista.append(n)
+    return lista
+
+def heapSTroca(lista, n, i):
+    maior_elemento = i 
+    esquerda = 2 * i + 1
+    direita = 2 * i + 2
+    if esquerda < n and lista[i] < lista[esquerda]:
+        maior_elemento = esquerda
+    if direita < n and lista[maior_elemento] < lista[direita]:
+        maior_elemento = direita
+    if maior_elemento != i:
+        lista[i],lista[maior_elemento]= lista[maior_elemento],lista[i]
+        heapSTroca(lista,n,maior_elemento)
+
+def heapSort(lista):
+    n = len(lista)
+    for i in range(n, -1, -1):
+        heapSTroca(lista, n, i)
+    for i in range(n-1,0,-1):
+        lista[i],lista[0] = lista[0], lista[i]
+        heapSTroca(lista, i, 0)
+
+def desenhaGrafico(lista,medio,melhor,pior,xl = "Elementos", yl = "Tempo"):
+    fig = plt.figure(figsize=(10, 8))
+    ax = fig.add_subplot(111)
+    ax.plot(lista,medio, label = "Caso Medio")
+    ax.plot(lista,melhor, label = "Melhor Caso")
+    ax.plot(lista,pior, label="Pior Caso")
+    ax.legend(bbox_to_anchor=(1, 1),bbox_transform=plt.gcf().transFigure)
+    plt.ylabel(yl)
+    plt.xlabel(xl)
+    plt.show()
+    fig.savefig('heapSort.png')
+
+
+listaNumeros = [100,200,300,400,500]
+# length = [10000,20000,30000,40000,50000]
+tempoMedio = []
+melhorTempo = []
+piorTempo = []
+
+for i in listaNumeros:
+    listaMedia = geraLista(i)
+    listaMelhor = sorted(listaMelhor)
+    listaPior = sorted(listaMelhor, reverse=True)
+
+    tempoMedio.append(timeit("heapSort({})".format(listaMedia),setup="from __main__ import heapSort",number=1))
+    melhorTempo.append(timeit("heapSort({})".format(listaMelhor),setup="from __main__ import heapSort",number=1))
+    piorTempo.append(timeit("heapSort({})".format(listaPior),setup="from __main__ import heapSort",number=1))
+
+desenhaGrafico(listaNumeros, tempoMedio, melhorTempo, piorTempo)
+
+
+RealPiorCaso = list(it.permutations([1,2,3,4,5,6],6))
+
+# permutimes and worstcase will have the same len, so the index is equivalent each other
+permuTempo = []
+swaps = []
+
+for i in RealPiorCaso:
+    listaOrdenada = list(permutation)
+    i.append(timeit("heapSort({})".format(listaOrdenada),setup="from __main__ import heapSort",number=1))
+    swaps.append(heapSort(listaOrdenada))
+
+menorTempo = min(permuTempo)
+maiorTempo= max(permuTempo)
+
+menorTimeIndex = permuTempo.index(menorTempo)
+maiorTimeIndex = permuTempo.index(maiorTempo)
+
+
+
