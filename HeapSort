@@ -63,7 +63,6 @@ desenhaGrafico(listaNumeros, tempoMedio, melhorTempo, piorTempo)
 
 RealPiorCaso = list(it.permutations([1,2,3,4,5,6],6))
 
-# permutimes and worstcase will have the same len, so the index is equivalent each other
 permuTempo = []
 swaps = []
 
